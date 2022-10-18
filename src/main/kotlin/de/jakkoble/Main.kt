@@ -1,7 +1,9 @@
 package de.jakkoble
 
-import kotlinx.coroutines.runBlocking
+import de.jakkoble.modules.core.TwitchBot
 
-fun main() = runBlocking {
-   
+fun main() {
+   val twitchBot = TwitchBot
+   twitchBot.registerEvents()
+   twitchBot.start()
 }
