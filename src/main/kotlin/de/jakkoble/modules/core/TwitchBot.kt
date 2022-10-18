@@ -17,11 +17,11 @@ object TwitchBot {
       ConsoleLogger.logInfo("Successfully registered all Events.")
    }
    fun start() {
-      ConsoleLogger.logInfo("Start joining Channels...")
       if (channels.isEmpty()) {
          ConsoleLogger.logWarning("No channel specified in channelData.json!")
          return
       }
+      ConsoleLogger.logInfo("Start joining Channels...")
       channels.forEach { twitchClient.chat.joinChannel(it.channelName) }
       ConsoleLogger.logInfo("Successfully joined all Twitch Channels.")
    }
