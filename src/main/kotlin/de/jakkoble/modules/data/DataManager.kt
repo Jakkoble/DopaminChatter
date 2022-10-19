@@ -29,3 +29,8 @@ object DataManager {
       ConsoleLogger.logInfo("Updated data in channelData.json.")
    }
 }
+fun ChannelData.update(newData: ChannelData) {
+   channels.remove(this)
+   channels.add(newData)
+   DataManager.updateChannelData()
+}
