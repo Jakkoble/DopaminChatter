@@ -17,6 +17,7 @@ class RemoveChannelCommand: TwitchCommand("removeChannel", true) {
       }
       channels.removeIf { it.userData.id == channelID }
       ConsoleLogger.logInfo("Removed User ${args[0]} from Database.")
+      TwitchBot.twitchClient.chat.sendMessage(channel.name, "I removed User '${args[0]}' from the Database. | ${sender.name}")
       DataManager.updateChannelData()
    }
 }
