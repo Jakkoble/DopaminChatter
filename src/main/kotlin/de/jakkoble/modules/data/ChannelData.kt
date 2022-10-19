@@ -5,9 +5,10 @@ import kotlinx.serialization.Serializable
 val channels: MutableList<ChannelData> = mutableListOf()
 @Serializable
 data class ChannelData(
-   val channelID: String,
-   val channelName: String,
+   val userData: UserData,
    val enabled: Boolean = true,
    val customEmotes: MutableList<String> = mutableListOf(),
    val writingChance: Int = 50
 )
+@Serializable
+data class UserData(val name: String, val id: String)
