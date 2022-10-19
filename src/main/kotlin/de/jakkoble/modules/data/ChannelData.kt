@@ -10,5 +10,6 @@ data class ChannelData(
    val customEmotes: MutableList<String> = mutableListOf(),
    var writingChance: Int = 50
 )
+fun getChannelDataByID(channelID: String) = channels.firstOrNull { it.userData.id == channelID }
 @Serializable
 data class UserData(val name: String, val id: String)
