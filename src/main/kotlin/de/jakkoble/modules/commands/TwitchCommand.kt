@@ -1,9 +1,18 @@
 package de.jakkoble.modules.commands
 
 import de.jakkoble.modules.data.UserData
+import de.jakkoble.utils.ConsoleLogger
 
-abstract class TwitchCommand(cmd: String) {
-   val command: String = cmd
-   abstract fun onCommand(channel: UserData, userData: UserData, args: List<String>)
-   fun executeCommand(channel: UserData, userData: UserData, args: List<String>) = onCommand(channel, userData, args)
+abstract class TwitchCommand(cmd: String, ownerOnly: Boolean) {
+   val command: String = "#$cmd"
+   private val ownerCommand: Boolean = ownerOnly
+   init {
+      ConsoleLogger.logInfo("Successfully loaded $command Command.")
+   }
+   abstract fun onCommand(channel: UserData, sender: UserData, args: List<String>)
+   fun executeCommand(channel: UserData, sender: UserData, args: List<String>) {
+      if (ownerCommand && sender.id != "205919808") return
+      ConsoleLogger.logInfo("${channel.name}: User ${sender.name} executed $command Command.")
+      onCommand(channel, sender, args)
+   }
 }
