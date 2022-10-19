@@ -9,20 +9,18 @@ import de.jakkoble.modules.events.ChannelMessageListener
 import de.jakkoble.utils.ConsoleLogger
 
 object TwitchBot {
-   private val twitchClient: TwitchClient = createClient()
+   val twitchClient: TwitchClient = createClient()
    fun registerEvents() {
       ConsoleLogger.logInfo("Start registering Events...")
       val eventHandler = twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java)
       ChannelMessageListener(eventHandler)
-      ConsoleLogger.logInfo("Successfully registered all Events.")
    }
    fun start() {
-      ConsoleLogger.logInfo("Start joining Channels...")
       if (channels.isEmpty()) {
          ConsoleLogger.logWarning("No channel specified in channelData.json!")
          return
       }
-      channels.forEach { twitchClient.chat.joinChannel(it.channelName) }
+      channels.forEach { twitchClient.chat.joinChannel(it.userData.name) }
       ConsoleLogger.logInfo("Successfully joined all Twitch Channels.")
    }
    private fun createClient(): TwitchClient {
@@ -30,8 +28,10 @@ object TwitchBot {
       val client = TwitchClientBuilder.builder()
          .withChatAccount(OAuth2Credential("twitch", System.getenv("TOKEN")))
          .withEnableChat(true)
+         .withEnableHelix(true)
          .build()
       ConsoleLogger.logInfo("TwitchClient successfully created.")
       return client
    }
+   fun getChannelID(name: String): String? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.first().displayName
 }
