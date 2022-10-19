@@ -20,7 +20,7 @@ class AddChannelCommand : TwitchCommand("addChannel", true) {
       val target = UserData(args[0].lowercase(), channelID)
       if (channels.any { it.userData.id == target.id }) {
          ConsoleLogger.logWarning("User ${args[0]} already exists.")
-         TwitchBot.twitchClient.chat.sendMessage(channel.name, "User '${args[1]} already exists in Database. | ${sender.name}")
+         TwitchBot.twitchClient.chat.sendMessage(channel.name, "User '${args[0]} already exists in Database. | ${sender.name}")
          return
       }
       ConsoleLogger.logInfo("Added User ${target.name} to Database.")
