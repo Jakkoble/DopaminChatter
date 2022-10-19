@@ -12,7 +12,7 @@ abstract class TwitchCommand(cmd: String, ownerOnly: Boolean) {
    abstract fun onCommand(channel: UserData, sender: UserData, args: List<String>)
    fun executeCommand(channel: UserData, sender: UserData, args: List<String>) {
       if (ownerCommand && sender.id != "205919808") return
-      ConsoleLogger.logInfo("${channel.name}: User ${sender.name} executed $command Command.")
+      ConsoleLogger.logInfo("${channel.name.first().uppercase()}: User ${sender.name} executed $command Command.")
       onCommand(channel, sender, args)
    }
 }
