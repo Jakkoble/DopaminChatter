@@ -4,6 +4,7 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential
 import com.github.philippheuer.events4j.simple.SimpleEventHandler
 import com.github.twitch4j.TwitchClient
 import com.github.twitch4j.TwitchClientBuilder
+import com.github.twitch4j.helix.domain.User
 import de.jakkoble.modules.data.channels
 import de.jakkoble.modules.events.ChannelMessageListener
 import de.jakkoble.utils.ConsoleLogger
@@ -33,5 +34,5 @@ object TwitchBot {
       ConsoleLogger.logInfo("TwitchClient successfully created.")
       return client
    }
-   fun getChannelID(name: String): String? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.first().id
+   fun getChannel(name: String): User? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.first()
 }
