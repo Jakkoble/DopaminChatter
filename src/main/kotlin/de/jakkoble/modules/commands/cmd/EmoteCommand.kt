@@ -6,8 +6,12 @@ import de.jakkoble.modules.data.*
 
 class EmoteCommand: TwitchCommand("emote", false) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
-      val channelEmotes = channels.flatMap { it.customEmotes }
+      val channelEmotes = channels.firstOrNull { it.userData.id == channel.id }?.customEmotes
       if (args[0] == "list") {
+         if (channelEmotes == null || channelEmotes.size == 0) {
+            TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, you don't have any Emotes added yet.")
+            return
+         }
          val message = StringBuilder()
          channelEmotes.forEach {
             message.append("$it ")
@@ -19,27 +23,27 @@ class EmoteCommand: TwitchCommand("emote", false) {
       val emoteName = args[1]
       when (args[0]) {
          "add" -> {
-            val emotes = channelEmotes.toMutableSet()
-            if (!emotes.add(emoteName)) {
+            val emotes = channelEmotes?.toMutableSet()
+            if (emotes?.add(emoteName) == false) {
                TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, this Emote is already in your Emote List.")
                return
             }
             TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Emote ' $emoteName ' got added to your Emote List.")
             getChannelDataByID(channel.id)?.update(ChannelData(
                userData = channel,
-               customEmotes = emotes.toMutableList()
+               customEmotes = emotes?.toMutableList() ?: return
             ))
          }
          "remove" -> {
-            val emotes = channelEmotes.toMutableSet()
-            if (!emotes.remove(emoteName)) {
+            val emotes = channelEmotes?.toMutableSet()
+            if (emotes?.add(emoteName) == false) {
                TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, this Emote is not in your Emote List.")
                return
             }
             TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Emote ' $emoteName ' got removed from your Emote List.")
             getChannelDataByID(channel.id)?.update(ChannelData(
                userData = channel,
-               customEmotes = emotes.toMutableList()
+               customEmotes = emotes?.toMutableList() ?: return
             ))
          }
       }
