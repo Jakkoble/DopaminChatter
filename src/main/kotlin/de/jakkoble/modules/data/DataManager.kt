@@ -8,13 +8,15 @@ import java.io.File
 
 object DataManager {
    const val filePath = "channelData.json"
+   private val json = Json { prettyPrint = true }
+
    init {
       val file = File(filePath)
       if (!file.exists()) {
          ConsoleLogger.logWarning("channelData.json does not exist!")
          file.createNewFile()
-         channels.add(ChannelData(UserData("Jakkoble", "205919808")))
-         file.writeText(Json.encodeToString(channels))
+         channels.add(ChannelData(UserData("jakkoble", "Jakkoble","205919808")))
+         file.writeText(json.encodeToString(channels))
          ConsoleLogger.logInfo("Created channelData.json file.")
       }
    }
@@ -25,7 +27,7 @@ object DataManager {
       ConsoleLogger.logInfo("Successfully loaded all data from channelData.json.")
    }
    fun updateChannelData() {
-      File(filePath).writeText(Json.encodeToString(channels))
+      File(filePath).writeText(json.encodeToString(channels))
       ConsoleLogger.logInfo("Updated data in channelData.json.")
    }
 }
