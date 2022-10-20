@@ -7,7 +7,7 @@ import de.jakkoble.modules.data.*
 class EmoteCommand: TwitchCommand("emote", false) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
       val channelEmotes = channels.flatMap { it.customEmotes }
-      if (args.size == 1 && args[0] == "list") {
+      if (args[0] == "list") {
          val message = StringBuilder()
          channelEmotes.forEach {
             message.append("$it ")

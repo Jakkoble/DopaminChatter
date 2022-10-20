@@ -7,7 +7,7 @@ import de.jakkoble.utils.ConsoleLogger
 
 class ChannelCommand : TwitchCommand("channel", true) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
-      if (args.size == 1 && args[0] == "list") {
+      if (args[0] == "list") {
          val channelNames = channels.map { it.userData.displayName }
          val message = StringBuilder()
          channelNames.forEach {
@@ -33,6 +33,7 @@ class ChannelCommand : TwitchCommand("channel", true) {
             }
             channels.add(ChannelData(target))
             TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Channel '$targetName' was successfully added.")
+            TwitchBot.twitchClient.chat.joinChannel(targetName)
             DataManager.updateChannelData()
          }
          "remove" -> {
@@ -41,6 +42,7 @@ class ChannelCommand : TwitchCommand("channel", true) {
                return
             }
             TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Channel '$targetName' was successfully removed.")
+            TwitchBot.twitchClient.chat.leaveChannel(targetName)
             DataManager.updateChannelData()
          }
          "disable" -> {
