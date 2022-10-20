@@ -12,4 +12,4 @@ data class ChannelData(
 )
 fun getChannelDataByID(channelID: String) = channels.firstOrNull { it.userData.id == channelID }
 @Serializable
-data class UserData(val name: String, val id: String)
+data class UserData(val name: String, val displayName: String, val id: String)
