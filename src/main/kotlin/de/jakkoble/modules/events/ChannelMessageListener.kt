@@ -24,7 +24,7 @@ class ChannelMessageListener(eventHandler: SimpleEventHandler) {
       if (event.channel.id != event.user.id || event.user.id != "205919808") return
       CommandManager().getCommand(message[0])?.executeCommand(
          channel = getChannelDataByID(event.channel.id)?.userData ?: return,
-         sender = UserData(event.user.name, TwitchBot.getChannel(event.user.id)?.displayName ?: return, event.user.id),
+         sender = UserData(event.user.name, TwitchBot.getChannel(event.user.name)?.displayName ?: return, event.user.id),
          args = message.subList(1, message.size)
       )
    }
