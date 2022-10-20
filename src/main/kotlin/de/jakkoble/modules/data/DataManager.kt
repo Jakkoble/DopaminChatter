@@ -9,7 +9,6 @@ import java.io.File
 object DataManager {
    const val filePath = "channelData.json"
    private val json = Json { prettyPrint = true }
-
    init {
       val file = File(filePath)
       if (!file.exists()) {
