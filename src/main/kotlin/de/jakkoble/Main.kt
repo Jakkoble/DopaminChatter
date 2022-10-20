@@ -8,7 +8,7 @@ import java.io.File
 
 fun main() {
    val startTime = System.currentTimeMillis()
-   ConsoleLogger.logInfo("Started Bot in ${File(File(DataManager.filePath).absolutePath).parent}...")
+   ConsoleLogger.logInfo("Started Bot in ${File("").absolutePath}...")
    DataManager.load()
    val twitchBot = TwitchBot
    twitchBot.registerEvents()
