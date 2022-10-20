@@ -7,18 +7,27 @@ import de.jakkoble.utils.ConsoleLogger
 
 class ChannelCommand : TwitchCommand("channel", true) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
+      if (args.size == 1 && args[0] == "list") {
+         val channelNames = channels.map { it.userData.name }
+         val message = StringBuilder()
+         channelNames.forEach {
+            message.append(if (channelNames.indexOf(it) != channelNames.size - 1) "$it, " else it)
+         }
+         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, these Channels are all registered Channels: ${message.substring(0)}")
+         return
+      }
       if (args.size != 2) return
-      val channelData = getChannelDataByID(channel.id)
       val targetName = args[1]
-      val targetID = TwitchBot.getChannelID(targetName)
-      if (targetID == null) {
+      val targetUser = TwitchBot.getChannel(targetName)
+      if (targetUser == null) {
          TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, could not find a Channel called '$targetName'.")
          return
       }
-      val target = UserData(targetName.lowercase(), targetID)
+      val target = UserData(targetUser.login, targetUser.displayName, targetUser.id)
+      val targetData = getChannelDataByID(targetUser.id)
       when (args[0]) {
          "add" -> {
-            if (channels.any { it.userData.id == targetID }) {
+            if (channels.any { it.userData.id == targetUser.id }) {
                TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, the Channel '$targetName' is already in the Channel List.")
                return
             }
@@ -27,7 +36,7 @@ class ChannelCommand : TwitchCommand("channel", true) {
             DataManager.updateChannelData()
          }
          "remove" -> {
-            if (!channels.removeIf { it.userData.id == targetID }) {
+            if (!channels.removeIf { it.userData.id == targetUser.id }) {
                TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, the Channel '$targetName' is not in the Channel List.")
                return
             }
@@ -35,39 +44,39 @@ class ChannelCommand : TwitchCommand("channel", true) {
             DataManager.updateChannelData()
          }
          "disable" -> {
-            if (channelData == null) {
-               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, there is no ChannelData for Channel '${channel.name}'.")
+            if (targetData == null) {
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, there is no ChannelData for Channel '${target.name}'.")
                return
             }
-            if (!channelData.enabled) {
-               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, I am already disabled for '${channel.name}'.")
+            if (!targetData.enabled) {
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, I am already disabled for '${target.name}'.")
                return
             }
-            channelData.update(ChannelData(
-               userData = channel,
+            targetData.update(ChannelData(
+               userData = target,
                enabled = false,
-               customEmotes = channelData.customEmotes,
-               writingChance = channelData.writingChance)
+               customEmotes = targetData.customEmotes,
+               writingChance = targetData.writingChance)
             )
-            TwitchBot.twitchClient.chat.joinChannel(channel.name)
-            ConsoleLogger.logInfo("Disabled Bot for Channel '${channel.name}'.")
+            TwitchBot.twitchClient.chat.leaveChannel(target.name)
+            ConsoleLogger.logInfo("Disabled Bot for Channel '${target.name}'.")
          }
          "enable" -> {
-            if (channelData == null) {
-               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, there is no ChannelData for Channel '${channel.name}'.")
+            if (targetData == null) {
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, there is no ChannelData for Channel '${target.name}'.")
                return
             }
-            if (!channelData.enabled) {
-               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, I am already enabled for '${channel.name}'.")
+            if (targetData.enabled) {
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, I am already enabled for '${target.name}'.")
                return
             }
-            channelData.update(ChannelData(
-               userData = channel,
-               customEmotes = channelData.customEmotes,
-               writingChance = channelData.writingChance)
+            targetData.update(ChannelData(
+               userData = target,
+               customEmotes = targetData.customEmotes,
+               writingChance = targetData.writingChance)
             )
-            TwitchBot.twitchClient.chat.leaveChannel(channel.name)
-            ConsoleLogger.logInfo("Enabled Bot for Channel '${channel.name}'.")
+            TwitchBot.twitchClient.chat.joinChannel(target.name)
+            ConsoleLogger.logInfo("Enabled Bot for Channel '${target.name}'.")
          }
       }
    }
