@@ -8,19 +8,19 @@ import de.jakkoble.utils.ConsoleLogger
 class ChannelCommand : TwitchCommand("channel", true) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
       if (args.size == 1 && args[0] == "list") {
-         val channelNames = channels.map { it.userData.name }
+         val channelNames = channels.map { it.userData.displayName }
          val message = StringBuilder()
          channelNames.forEach {
             message.append(if (channelNames.indexOf(it) != channelNames.size - 1) "$it, " else it)
          }
-         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, these Channels are all registered Channels: ${message.substring(0)}")
+         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, these are all the registered Channels: ${message.substring(0)}")
          return
       }
       if (args.size != 2) return
       val targetName = args[1]
       val targetUser = TwitchBot.getChannel(targetName)
       if (targetUser == null) {
-         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, could not find a Channel called '$targetName'.")
+         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, could not find a Channel called '$targetName'.")
          return
       }
       val target = UserData(targetUser.login, targetUser.displayName, targetUser.id)
@@ -28,28 +28,28 @@ class ChannelCommand : TwitchCommand("channel", true) {
       when (args[0]) {
          "add" -> {
             if (channels.any { it.userData.id == targetUser.id }) {
-               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, the Channel '$targetName' is already in the Channel List.")
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Channel '$targetName' is already in the Channel List.")
                return
             }
             channels.add(ChannelData(target))
-            TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, the Channel '$targetName' was successfully added.")
+            TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Channel '$targetName' was successfully added.")
             DataManager.updateChannelData()
          }
          "remove" -> {
             if (!channels.removeIf { it.userData.id == targetUser.id }) {
-               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, the Channel '$targetName' is not in the Channel List.")
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Channel '$targetName' is not in the Channel List.")
                return
             }
-            TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, the Channel '$targetName' was successfully removed.")
+            TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Channel '$targetName' was successfully removed.")
             DataManager.updateChannelData()
          }
          "disable" -> {
             if (targetData == null) {
-               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, there is no ChannelData for Channel '${target.name}'.")
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, there is no ChannelData for Channel '${target.name}'.")
                return
             }
             if (!targetData.enabled) {
-               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, I am already disabled for '${target.name}'.")
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, I am already disabled for '${target.name}'.")
                return
             }
             targetData.update(ChannelData(
@@ -63,11 +63,11 @@ class ChannelCommand : TwitchCommand("channel", true) {
          }
          "enable" -> {
             if (targetData == null) {
-               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, there is no ChannelData for Channel '${target.name}'.")
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, there is no ChannelData for Channel '${target.name}'.")
                return
             }
             if (targetData.enabled) {
-               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.name}, I am already enabled for '${target.name}'.")
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, I am already enabled for '${target.name}'.")
                return
             }
             targetData.update(ChannelData(
