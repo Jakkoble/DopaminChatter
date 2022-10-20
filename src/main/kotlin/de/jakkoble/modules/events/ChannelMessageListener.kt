@@ -3,6 +3,7 @@ package de.jakkoble.modules.events
 import com.github.philippheuer.events4j.simple.SimpleEventHandler
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent
 import de.jakkoble.modules.commands.CommandManager
+import de.jakkoble.modules.commands.commands
 import de.jakkoble.modules.core.TwitchBot
 import de.jakkoble.modules.data.ChannelData
 import de.jakkoble.modules.data.UserData
@@ -17,7 +18,7 @@ class ChannelMessageListener(eventHandler: SimpleEventHandler) {
    private fun onChannelMessage(event: ChannelMessageEvent) {
       val message = event.message.split(" ")
       if (message.isEmpty()) return
-      if (message.first().first().toString() != "#") {
+      if (commands.none { it.command == message.first() }) {
          handleEmote(getChannelDataByID(event.channel.id) ?: return, message)
          return
       }
