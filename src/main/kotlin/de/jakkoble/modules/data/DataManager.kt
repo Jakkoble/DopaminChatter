@@ -7,15 +7,17 @@ import kotlinx.serialization.json.Json
 import java.io.File
 
 object DataManager {
-   const val filePath = "channelData.json"
+   private const val filePath = "channelData.json"
    private val json = Json { prettyPrint = true }
    init {
       val file = File(filePath)
       if (!file.exists()) {
          ConsoleLogger.logWarning("channelData.json does not exist!")
          file.createNewFile()
-         channels.add(ChannelData(UserData("jakkoble", "Jakkoble","205919808")))
+         val channelData = ChannelData(UserData("jakkoble", "Jakkoble","205919808"))
+         channels.add(channelData)
          file.writeText(json.encodeToString(channels))
+         channels.remove(channelData)
          ConsoleLogger.logInfo("Created channelData.json file.")
       }
    }
@@ -31,7 +33,7 @@ object DataManager {
    }
 }
 fun ChannelData.update(newData: ChannelData) {
-   channels.remove(this)
+   channels.removeIf { it.userData.id == userData.id }
    channels.add(newData)
    DataManager.updateChannelData()
 }
