@@ -64,7 +64,6 @@ class ChannelCommand : TwitchCommand("channel", true) {
                customEmotes = targetData.customEmotes,
                writingChance = targetData.writingChance)
             )
-            TwitchBot.twitchClient.chat.leaveChannel(target.name)
             TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Bot is now disabled for the Channel '${target.name}'.")
             ConsoleLogger.logInfo("Disabled Bot for Channel '${target.name}'.")
          }
@@ -82,7 +81,6 @@ class ChannelCommand : TwitchCommand("channel", true) {
                customEmotes = targetData.customEmotes,
                writingChance = targetData.writingChance)
             )
-            TwitchBot.twitchClient.chat.joinChannel(target.name)
             TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Bot is now enabled for the Channel '${target.name}'.")
             ConsoleLogger.logInfo("Enabled Bot for Channel '${target.name}'.")
          }
