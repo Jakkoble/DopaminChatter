@@ -10,9 +10,9 @@ class EmoteCommand: TwitchCommand("emote", false) {
       if (args.size == 1 && args[0] == "list") {
          val message = StringBuilder()
          channelEmotes.forEach {
-            message.append(if (channelEmotes.indexOf(it) != channelEmotes.size - 1) "$it, " else it)
+            message.append("$it ")
          }
-         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, these are the active Emotes: ${message.substring(0)}")
+         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, these are the active Emotes: $message")
          return
       }
       if (args.size != 2) return
