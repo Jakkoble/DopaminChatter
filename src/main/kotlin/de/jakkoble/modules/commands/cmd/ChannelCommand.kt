@@ -13,7 +13,7 @@ class ChannelCommand : TwitchCommand("channel", true) {
          channelNames.forEach {
             message.append(if (channelNames.indexOf(it) != channelNames.size - 1) "$it, " else it)
          }
-         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, these are all the registered Channels: ${message.substring(0)}")
+         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, these are all the registered Channels: $message")
          return
       }
       if (args.size != 2) return
