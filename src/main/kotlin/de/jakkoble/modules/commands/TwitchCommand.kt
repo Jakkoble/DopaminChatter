@@ -23,6 +23,6 @@ abstract class TwitchCommand(cmd: String, ownerOnly: Boolean) {
          return
       }
       ConsoleLogger.logInfo("${channel.displayName}: User ${sender.displayName} executed $command Command.")
-      onCommand(channel, sender, args)
+      onCommand(channel, sender, args.filter { it != "" })
    }
 }
