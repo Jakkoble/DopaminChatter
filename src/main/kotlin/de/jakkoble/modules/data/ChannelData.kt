@@ -7,7 +7,7 @@ val channels: MutableList<ChannelData> = mutableListOf()
 data class ChannelData(
    val userData: UserData,
    var enabled: Boolean = true,
-   val customEmotes: MutableList<String> = mutableListOf(),
+   var customEmotes: MutableList<String> = mutableListOf(),
    var writingChance: Int = 50
 )
 fun getChannelDataByID(channelID: String) = channels.firstOrNull { it.userData.id == channelID }
