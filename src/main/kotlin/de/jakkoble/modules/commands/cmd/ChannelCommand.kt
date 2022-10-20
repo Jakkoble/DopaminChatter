@@ -37,6 +37,10 @@ class ChannelCommand : TwitchCommand("channel", true) {
             DataManager.updateChannelData()
          }
          "remove" -> {
+            if (channel.id == "205919808") {
+               TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, you could not remove the Owner Channel!")
+               return
+            }
             if (!channels.removeIf { it.userData.id == targetUser.id }) {
                TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Channel '$targetName' is not in the Channel List.")
                return
