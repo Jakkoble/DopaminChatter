@@ -1,5 +1,6 @@
 package de.jakkoble.modules.commands
 
+import de.jakkoble.modules.commands.cmd.ChanceCommand
 import de.jakkoble.modules.commands.cmd.ChannelCommand
 import de.jakkoble.modules.commands.cmd.EmoteCommand
 import de.jakkoble.modules.commands.cmd.StopCommand
@@ -10,6 +11,7 @@ class CommandManager {
       commands.add(ChannelCommand())
       commands.add(EmoteCommand())
       commands.add(StopCommand())
+      commands.add(ChanceCommand())
    }
    fun getCommand(command: String): TwitchCommand? = commands.firstOrNull { it.command.equals(command, true) }
 }
