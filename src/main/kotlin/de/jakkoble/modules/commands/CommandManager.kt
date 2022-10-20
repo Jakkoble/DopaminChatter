@@ -4,7 +4,7 @@ import de.jakkoble.modules.commands.cmd.ChannelCommand
 import de.jakkoble.modules.commands.cmd.EmoteCommand
 import de.jakkoble.modules.commands.cmd.StopCommand
 
-private val commands: MutableList<TwitchCommand> = mutableListOf()
+val commands: MutableList<TwitchCommand> = mutableListOf()
 class CommandManager {
    fun registerCommands() {
       commands.add(ChannelCommand())
