@@ -17,14 +17,14 @@ class ChannelMessageListener(eventHandler: SimpleEventHandler) {
    private fun onChannelMessage(event: ChannelMessageEvent) {
       val message = event.message.split(" ")
       if (message.isEmpty()) return
-      if (message.first() != "#") {
+      if (message.first().first().toString() != "#") {
          handleEmote(getChannelDataByID(event.channel.id) ?: return, message)
          return
       }
       if (event.channel.id != event.user.id || event.user.id != "205919808") return
       CommandManager().getCommand(message[0])?.executeCommand(
-         channel = UserData(event.channel.name, event.channel.id),
-         sender = UserData(event.user.name, event.user.id),
+         channel = getChannelDataByID(event.channel.id)?.userData ?: return,
+         sender = UserData(event.user.name, TwitchBot.getChannel(event.user.id)?.displayName ?: return, event.user.id),
          args = message.subList(1, message.size)
       )
    }
