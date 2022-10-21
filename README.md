@@ -1,4 +1,4 @@
-# DopaminChatter
+# DopaminChatter (Release: 25th October 2022)
 Dopamin is the happiness hormone. What's better than a Twitch Chat with **great Emote Usage** and **Emote Chains** (same Emotes after another). That's the reason why this bot exists!
 </br>
 </br>
