@@ -12,6 +12,8 @@ class CommandManager {
       commands.add(ChanceCommand())
       commands.add(RegisterCommand())
       commands.add(UnregisterCommand())
+      commands.add(EnableCommand())
+      commands.add(DisableCommand())
    }
    fun getCommand(command: String): TwitchCommand? = commands.firstOrNull { it.command.equals(command, true) }
 }
