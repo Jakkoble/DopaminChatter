@@ -29,6 +29,7 @@ class ChannelMessageListener(eventHandler: SimpleEventHandler) {
       )
    }
    private fun handleEmote(channelData: ChannelData, message: List<String>) {
+      if (!channelData.enabled) return
       val emoteList = channelData.customEmotes
       message.forEach {
          if (emoteList.contains(it)) {
