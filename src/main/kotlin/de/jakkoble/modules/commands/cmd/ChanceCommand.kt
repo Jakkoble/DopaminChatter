@@ -7,7 +7,7 @@ import de.jakkoble.modules.data.UserData
 import de.jakkoble.modules.data.getChannelDataByID
 import de.jakkoble.modules.data.update
 
-class ChanceCommand: TwitchCommand("chance", false, false) {
+class ChanceCommand: TwitchCommand("chance", false) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
       if (args.size != 1) return
       val chance = args[0].toIntOrNull()

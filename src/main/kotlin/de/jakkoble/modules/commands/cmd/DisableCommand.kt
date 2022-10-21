@@ -8,7 +8,7 @@ import de.jakkoble.modules.data.getChannelDataByID
 import de.jakkoble.modules.data.update
 import de.jakkoble.utils.ConsoleLogger
 
-class DisableCommand: TwitchCommand("disable", false, true) {
+class DisableCommand: TwitchCommand("disable", false) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
       val channelData = getChannelDataByID(channel.id) ?: return
       channelData.update(ChannelData(
