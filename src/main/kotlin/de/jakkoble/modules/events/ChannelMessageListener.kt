@@ -22,7 +22,6 @@ class ChannelMessageListener(eventHandler: SimpleEventHandler) {
          handleEmote(getChannelDataByID(event.channel.id) ?: return, message)
          return
       }
-      if (event.channel.id != event.user.id && event.user.id != "205919808") return
       CommandManager().getCommand(message[0])?.executeCommand(
          channel = getChannelDataByID(event.channel.id)?.userData ?: return,
          sender = UserData(event.user.name, TwitchBot.getChannel(event.user.name)?.displayName ?: return, event.user.id),
