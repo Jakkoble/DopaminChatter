@@ -34,6 +34,7 @@ class ChannelCommand : TwitchCommand("channel", true) {
             channels.add(ChannelData(target))
             TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Channel '$targetName' was successfully added.")
             TwitchBot.twitchClient.chat.joinChannel(targetName)
+            TwitchBot.twitchClient.chat.sendMessage(targetName, "Hey! I am now active on your Channel. Type #help for Command Usage.")
             DataManager.updateChannelData()
          }
          "remove" -> {
