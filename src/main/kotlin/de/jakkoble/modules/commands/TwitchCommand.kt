@@ -15,13 +15,13 @@ abstract class TwitchCommand(cmd: String, ownerOnly: Boolean, alwaysEnabled: Boo
    }
    abstract fun onCommand(channel: UserData, sender: UserData, args: List<String>)
    fun executeCommand(channel: UserData, sender: UserData, args: List<String>) {
-      if (!alwaysUsable) {
+      if (alwaysUsable) {
          if ((ownerCommand && sender.id != "205919808") || (channel.id != sender.id && sender.id != "205919808")) {
             TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, you don't have enough permission to execute this Command!")
             return
          }
          if (getChannelDataByID(channel.id)?.enabled == false && command != ChannelCommand().command) {
-            TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Bot is currently disabled. Ask Jakkoble to enable it again.")
+            TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Bot is currently disabled. With #enable you could activate the Bot again.")
             return
          }
       }
