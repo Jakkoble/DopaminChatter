@@ -1,9 +1,6 @@
 package de.jakkoble.modules.commands
 
-import de.jakkoble.modules.commands.cmd.ChanceCommand
-import de.jakkoble.modules.commands.cmd.ChannelCommand
-import de.jakkoble.modules.commands.cmd.EmoteCommand
-import de.jakkoble.modules.commands.cmd.StopCommand
+import de.jakkoble.modules.commands.cmd.*
 
 val commands: MutableList<TwitchCommand> = mutableListOf()
 class CommandManager {
@@ -12,6 +9,7 @@ class CommandManager {
       commands.add(EmoteCommand())
       commands.add(StopCommand())
       commands.add(ChanceCommand())
+      commands.add(HelpCommand())
    }
    fun getCommand(command: String): TwitchCommand? = commands.firstOrNull { it.command.equals(command, true) }
 }
