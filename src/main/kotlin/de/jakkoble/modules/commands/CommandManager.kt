@@ -8,6 +8,7 @@ class CommandManager {
       commands.add(ChannelCommand())
       commands.add(EmoteCommand())
       commands.add(StopCommand())
+      commands.add(HelpCommand())
       commands.add(ChanceCommand())
       commands.add(RegisterCommand())
    }
