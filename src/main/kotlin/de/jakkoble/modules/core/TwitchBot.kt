@@ -37,5 +37,5 @@ object TwitchBot {
       ConsoleLogger.logInfo("TwitchClient successfully created.")
       return client
    }
-   fun getChannel(name: String): User? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.first()
+   fun getChannel(name: String): User? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.firstOrNull()
 }
