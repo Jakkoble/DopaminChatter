@@ -10,7 +10,7 @@ abstract class TwitchCommand(cmd: String, ownerOnly: Boolean) {
    val command: String = "#$cmd"
    private val ownerCommand: Boolean = ownerOnly
    init {
-      ConsoleLogger.logInfo("Successfully loaded $command Command.")
+      ConsoleLogger.logInfo("Loaded $command Command.")
    }
    abstract fun onCommand(channel: UserData, sender: UserData, args: List<String>)
    fun executeCommand(channel: UserData, sender: UserData, args: List<String>) {

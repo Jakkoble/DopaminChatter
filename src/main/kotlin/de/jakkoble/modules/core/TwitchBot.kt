@@ -21,7 +21,10 @@ object TwitchBot {
          ConsoleLogger.logWarning("No channel specified in channelData.json!")
          return
       }
-      channels.forEach { twitchClient.chat.joinChannel(it.userData.name) }
+      channels.forEach {
+         ConsoleLogger.logInfo("Joined Channel ${it.userData.displayName}")
+         twitchClient.chat.joinChannel(it.userData.name)
+      }
       ConsoleLogger.logInfo("Successfully joined all Twitch Channels.")
    }
    private fun createClient(): TwitchClient {
@@ -34,5 +37,5 @@ object TwitchBot {
       ConsoleLogger.logInfo("TwitchClient successfully created.")
       return client
    }
-   fun getChannel(name: String): User? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.first()
+   fun getChannel(name: String): User? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.firstOrNull()
 }
