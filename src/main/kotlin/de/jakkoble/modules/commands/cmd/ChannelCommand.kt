@@ -5,7 +5,7 @@ import de.jakkoble.modules.core.TwitchBot
 import de.jakkoble.modules.data.*
 import de.jakkoble.utils.ConsoleLogger
 
-class ChannelCommand : TwitchCommand("channel", true) {
+class ChannelCommand : TwitchCommand("channel", true, true) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
       if (args[0] == "list") {
          val channelNames = channels.map { it.userData.displayName }

@@ -4,7 +4,7 @@ import de.jakkoble.modules.commands.TwitchCommand
 import de.jakkoble.modules.core.TwitchBot
 import de.jakkoble.modules.data.*
 
-class EmoteCommand: TwitchCommand("emote", false) {
+class EmoteCommand: TwitchCommand("emote", false, false) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
       val channelData = channels.firstOrNull { it.userData.id == channel.id }
       val channelEmotes = channelData?.customEmotes

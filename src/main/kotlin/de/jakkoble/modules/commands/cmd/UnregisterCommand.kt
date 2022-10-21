@@ -6,7 +6,7 @@ import de.jakkoble.modules.data.DataManager
 import de.jakkoble.modules.data.UserData
 import de.jakkoble.modules.data.channels
 
-class UnregisterCommand: TwitchCommand("unregister", false) {
+class UnregisterCommand: TwitchCommand("unregister", false, true) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
       if (channel.id != "205919808") {
          TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, this Command is only available in Jakkoble's Twitch Chat ( https://twitch.tv/jakkoble )")
