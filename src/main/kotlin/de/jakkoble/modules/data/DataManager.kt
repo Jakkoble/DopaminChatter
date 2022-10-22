@@ -7,11 +7,10 @@ import kotlinx.serialization.json.Json
 import java.io.File
 
 object DataManager {
-   private const val filePath = "data"
+   const val filePath = "data"
    private val json = Json { prettyPrint = true }
    init {
       val file = File(filePath)
-      println("Test: ${file.absolutePath}")
       if (!file.exists()) {
          ConsoleLogger.logWarning("Data Folder does not exist!")
          file.mkdir()
