@@ -9,6 +9,10 @@ import java.io.File
 
 class UnregisterCommand: TwitchCommand("unregister", false) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
+      if (channel.id == "205919808" && sender.id == "205919808") {
+         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, you could not remove the Owner Channel!")
+         return
+      }
       if (channel.id != "205919808") {
          TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, this Command is only available in Jakkoble's Twitch Chat ( https://twitch.tv/jakkoble )")
          return
