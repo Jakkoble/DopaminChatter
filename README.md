@@ -15,7 +15,7 @@ To enable the Bot for your Channel, just go to **[my Twitch Chat](https://twitch
 `#help` — Link to this GitHub Repository </br>
 `#emote list` — List your Channel Emotes </br>
 `#emote add/remove emoteName` — Add or Remove a Emote to your Channel </br>
-`#chance writingChance` — Specify the chance that the Bot response. (e.g. 40 would be 40% Chance) </br>
+`#chance writingChance` — Specify the chance that the Bot response. (e.g. 40 would be 40% Chance) => default value is 50</br>
 `#disable` — Disable the Bot temporarily (no Data get deleted) </br>
 `#enable` — Enable the Bot again </br>
 
