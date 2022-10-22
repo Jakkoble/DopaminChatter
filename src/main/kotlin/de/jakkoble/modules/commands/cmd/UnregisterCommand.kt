@@ -5,6 +5,7 @@ import de.jakkoble.modules.core.TwitchBot
 import de.jakkoble.modules.data.DataManager
 import de.jakkoble.modules.data.UserData
 import de.jakkoble.modules.data.channels
+import java.io.File
 
 class UnregisterCommand: TwitchCommand("unregister", false) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
@@ -21,5 +22,6 @@ class UnregisterCommand: TwitchCommand("unregister", false) {
       DataManager.updateChannelData()
       TwitchBot.twitchClient.chat.leaveChannel(sender.name)
       TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Bot is now removed from your Channel.")
+      File("${DataManager.filePath}/${sender.id}.json").delete()
    }
 }

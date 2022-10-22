@@ -3,6 +3,7 @@ package de.jakkoble.modules.commands.cmd
 import de.jakkoble.modules.commands.TwitchCommand
 import de.jakkoble.modules.core.TwitchBot
 import de.jakkoble.modules.data.*
+import java.io.File
 import java.util.regex.Pattern
 
 class ChannelCommand : TwitchCommand("channel", true) {
@@ -49,6 +50,7 @@ class ChannelCommand : TwitchCommand("channel", true) {
             TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Channel '$targetName' was successfully removed.")
             TwitchBot.twitchClient.chat.leaveChannel(targetName)
             DataManager.updateChannelData()
+            File("${DataManager.filePath}/${target.id}.json").delete()
          }
       }
    }
