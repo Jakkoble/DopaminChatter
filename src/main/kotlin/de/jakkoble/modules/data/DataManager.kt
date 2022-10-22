@@ -7,29 +7,36 @@ import kotlinx.serialization.json.Json
 import java.io.File
 
 object DataManager {
-   private const val filePath = "channelData.json"
+   private const val filePath = "data"
    private val json = Json { prettyPrint = true }
    init {
       val file = File(filePath)
+      println("Test: ${file.absolutePath}")
       if (!file.exists()) {
-         ConsoleLogger.logWarning("channelData.json does not exist!")
-         file.createNewFile()
+         ConsoleLogger.logWarning("Data Folder does not exist!")
+         file.mkdir()
+         ConsoleLogger.logInfo("Data Folder created.")
+         val channelFile = File("$filePath/205919808.json")
+         if (!channelFile.exists()) channelFile.createNewFile()
          val channelData = ChannelData(UserData("jakkoble", "Jakkoble","205919808"))
-         channels.add(channelData)
-         file.writeText(json.encodeToString(channels))
-         channels.remove(channelData)
-         ConsoleLogger.logInfo("Created channelData.json file.")
+         channelFile.writeText(json.encodeToString(channelData))
       }
    }
    fun load() {
-      ConsoleLogger.logInfo("Loading data from channelData.json...")
-      val data = Json.decodeFromString<MutableList<ChannelData>?>(File(filePath).readText())
-      channels.addAll(data ?: return)
-      ConsoleLogger.logInfo("Successfully loaded all data from channelData.json.")
+      ConsoleLogger.logInfo("Loading Channel Data...")
+      File(filePath).listFiles()?.forEach {
+         val data = Json.decodeFromString<ChannelData?>(it.readText())
+         if (data != null) channels.add(data)
+      }
+      ConsoleLogger.logInfo("Successfully loaded all Channel Data.")
    }
    fun updateChannelData() {
-      File(filePath).writeText(json.encodeToString(channels))
-      ConsoleLogger.logInfo("Updated data in channelData.json.")
+      channels.forEach {
+         val file = File("$filePath/${it.userData.id}.json")
+         if (!file.exists()) file.createNewFile()
+         file.writeText(json.encodeToString(it))
+      }
+      ConsoleLogger.logInfo("Updated all Channel Data")
    }
 }
 fun ChannelData.update(newData: ChannelData) {
