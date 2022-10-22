@@ -3,4 +3,4 @@
 /build/
 /.gitignore
 /gradle/wrapper/
-/channelData.json
+/data/
