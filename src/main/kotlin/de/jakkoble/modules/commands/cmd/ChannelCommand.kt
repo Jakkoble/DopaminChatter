@@ -3,6 +3,7 @@ package de.jakkoble.modules.commands.cmd
 import de.jakkoble.modules.commands.TwitchCommand
 import de.jakkoble.modules.core.TwitchBot
 import de.jakkoble.modules.data.*
+import java.util.regex.Pattern
 
 class ChannelCommand : TwitchCommand("channel", true) {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
@@ -17,7 +18,8 @@ class ChannelCommand : TwitchCommand("channel", true) {
       }
       if (args.size != 2) return
       val targetName = args[1]
-      val targetUser = TwitchBot.getChannel(targetName)
+      val withSpecialCharacters = Pattern.compile("[^A-Za-z0-9_]").matcher(targetName).find()
+      val targetUser = if (!withSpecialCharacters) TwitchBot.getChannel(targetName) else null
       if (targetUser == null) {
          TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, could not find a Channel called '$targetName'.")
          return
