@@ -16,10 +16,7 @@ abstract class TwitchCommand(cmd: String, ownerOnly: Boolean) {
    abstract fun onCommand(channel: UserData, sender: UserData, args: List<String>)
    fun executeCommand(channel: UserData, sender: UserData, args: List<String>) {
       if (!command.contains("register") && !command.contains("help")) {
-         if (ownerCommand && sender.id != "205919808" || channel.id != sender.id && sender.id != "205919808") {
-            TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, you don't have enough permission to execute this Command!")
-            return
-         }
+         if (ownerCommand && sender.id != "205919808" || channel.id != sender.id && sender.id != "205919808") return
          if (getChannelDataByID(channel.id)?.enabled == false && command != ChannelCommand().command && command != EnableCommand().command) {
             TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Bot is currently disabled. With #enable you could activate the Bot again.")
             return
