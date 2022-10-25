@@ -7,20 +7,16 @@ import de.jakkoble.modules.data.UserData
 import de.jakkoble.modules.data.getChannelDataByID
 import de.jakkoble.utils.ConsoleLogger
 
-abstract class TwitchCommand(cmd: String, ownerOnly: Boolean) {
+abstract class TwitchCommand(cmd: String) {
    val command: String = "#$cmd"
-   private val ownerCommand: Boolean = ownerOnly
    init {
       ConsoleLogger.logInfo("Loaded $command Command.")
    }
    abstract fun onCommand(channel: UserData, sender: UserData, args: List<String>)
    fun executeCommand(channel: UserData, sender: UserData, args: List<String>) {
-      if (!command.contains("register") && !command.contains("help")) {
-         if (ownerCommand && sender.id != "205919808" || channel.id != sender.id && sender.id != "205919808") return
-         if (getChannelDataByID(channel.id)?.enabled == false && command != ChannelCommand().command && command != EnableCommand().command) {
-            TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Bot is currently disabled. With #enable you could activate the Bot again.")
-            return
-         }
+      if (getChannelDataByID(channel.id)?.enabled == false && command != ChannelCommand().command && command != EnableCommand().command) {
+         TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Bot is currently disabled. With #enable you could activate the Bot again.")
+         return
       }
       ConsoleLogger.logInfo("${channel.displayName}: User ${sender.displayName} executed $command Command.")
       onCommand(channel, sender, args.filter { it != "" })
