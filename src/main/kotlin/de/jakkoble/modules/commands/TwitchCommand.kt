@@ -12,13 +12,14 @@ abstract class TwitchCommand(cmd: String) {
    init {
       ConsoleLogger.logInfo("Loaded $command Command.")
    }
-   abstract fun onCommand(channel: UserData, sender: UserData, args: List<String>)
+   abstract fun onCommand(channel: UserData, sender: UserData, args: List<String>): Boolean
    fun executeCommand(channel: UserData, sender: UserData, args: List<String>) {
       if (getChannelDataByID(channel.id)?.enabled == false && command != ChannelCommand().command && command != EnableCommand().command) {
          TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, the Bot is currently disabled. With #enable you could activate the Bot again.")
          return
       }
-      ConsoleLogger.logInfo("${channel.displayName}: User ${sender.displayName} executed $command Command.")
-      onCommand(channel, sender, args.filter { it != "" })
+      if (onCommand(channel, sender, args.filter { it != "" }))
+         ConsoleLogger.logInfo("${channel.displayName}: User ${sender.displayName} executed $command Command.")
+      else ConsoleLogger.logInfo("${channel.displayName}: User ${sender.displayName} issued $command Command.")
    }
 }
