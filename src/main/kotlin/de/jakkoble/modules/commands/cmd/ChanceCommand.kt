@@ -7,13 +7,14 @@ import de.jakkoble.modules.data.UserData
 import de.jakkoble.modules.data.getChannelDataByID
 import de.jakkoble.modules.data.update
 
-class ChanceCommand: TwitchCommand("chance", false) {
-   override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
-      if (args.size != 1) return
+class ChanceCommand: TwitchCommand("chance") {
+   override fun onCommand(channel: UserData, sender: UserData, args: List<String>): Boolean {
+      if (args.size != 1) return false
+      if (sender.id != "205919808" && sender.id != channel.id && TwitchBot.getMods(channel.id)?.contains(sender.id) == false) return false
       val chance = args[0].toIntOrNull()
       if (chance == null || chance !in 1..100) {
          TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, you have to choose a value betweet 1-100!")
-         return
+         return false
       }
       val data = getChannelDataByID(channel.id)
       data?.update(ChannelData(
@@ -23,5 +24,6 @@ class ChanceCommand: TwitchCommand("chance", false) {
          writingChance = chance
       ))
       TwitchBot.twitchClient.chat.sendMessage(channel.name, "${sender.displayName}, you have set the WritingChance to $chance%.")
+      return true
    }
 }
