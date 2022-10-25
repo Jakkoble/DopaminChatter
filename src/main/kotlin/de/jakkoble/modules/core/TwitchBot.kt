@@ -4,7 +4,6 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential
 import com.github.philippheuer.events4j.simple.SimpleEventHandler
 import com.github.twitch4j.TwitchClient
 import com.github.twitch4j.TwitchClientBuilder
-import com.github.twitch4j.helix.domain.Moderator
 import com.github.twitch4j.helix.domain.User
 import de.jakkoble.modules.data.channels
 import de.jakkoble.modules.events.ChannelMessageListener
@@ -40,5 +39,5 @@ object TwitchBot {
       return client
    }
    fun getChannel(name: String): User? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.firstOrNull()
-   fun getMods(channelID: String): List<Moderator?>? = twitchClient.helix.getModerators(System.getenv("TOKEN"), channelID, null, null, null).execute().moderators
+   fun getMods(channelID: String): List<String?>? = twitchClient.helix.getModerators(System.getenv("TOKEN"), channelID, null, null, null).execute()?.moderators?.map { it.userId }
 }
