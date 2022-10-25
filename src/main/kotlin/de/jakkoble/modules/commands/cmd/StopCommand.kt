@@ -7,8 +7,9 @@ import de.jakkoble.modules.data.channels
 import de.jakkoble.utils.ConsoleLogger
 import kotlin.system.exitProcess
 
-class StopCommand: TwitchCommand("stop", true) {
-   override fun onCommand(channel: UserData, sender: UserData, args: List<String>) {
+class StopCommand: TwitchCommand("stop") {
+   override fun onCommand(channel: UserData, sender: UserData, args: List<String>): Boolean {
+      if (sender.id != "205919808") return false
       ConsoleLogger.logInfo("The Bot is now stopping...")
       channels.map { it.userData.name }.forEach { TwitchBot.twitchClient.chat.leaveChannel(it) }
       TwitchBot.twitchClient.chat.disconnect()
