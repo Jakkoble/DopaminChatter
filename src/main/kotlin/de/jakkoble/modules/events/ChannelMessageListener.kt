@@ -9,12 +9,15 @@ import de.jakkoble.modules.data.ChannelData
 import de.jakkoble.modules.data.UserData
 import de.jakkoble.modules.data.getChannelDataByID
 import de.jakkoble.utils.ConsoleLogger
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlin.concurrent.thread
 
 class ChannelMessageListener {
    fun register(eventHandler: SimpleEventHandler) {
       eventHandler.onEvent(ChannelMessageEvent::class.java) { onChannelMessage(it) }
       ConsoleLogger.logInfo("Successfully registered ChannelMessageEvent.")
    }
+   @OptIn(DelicateCoroutinesApi::class)
    private fun onChannelMessage(event: ChannelMessageEvent) {
       val message = event.message.split(" ")
       if (message.isEmpty()) return
@@ -22,11 +25,13 @@ class ChannelMessageListener {
          handleEmote(getChannelDataByID(event.channel.id) ?: return, message)
          return
       }
-      CommandManager().getCommand(message[0])?.executeCommand(
-         channel = getChannelDataByID(event.channel.id)?.userData ?: return,
-         sender = UserData(event.user.name, TwitchBot.getChannel(event.user.name)?.displayName ?: return, event.user.id),
-         args = message.subList(1, message.size)
-      )
+      thread {
+         CommandManager().getCommand(message[0])?.executeCommand(
+            channel = getChannelDataByID(event.channel.id)?.userData ?: return@thread,
+            sender = UserData(event.user.name, TwitchBot.getChannel(event.user.name)?.displayName ?: return@thread, event.user.id),
+            args = message.subList(1, message.size)
+         )
+      }
    }
 }
 private fun handleEmote(channelData: ChannelData, message: List<String>) {
