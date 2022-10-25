@@ -4,11 +4,10 @@ import de.jakkoble.modules.commands.CommandManager
 import de.jakkoble.modules.core.TwitchBot
 import de.jakkoble.modules.data.DataManager
 import de.jakkoble.utils.ConsoleLogger
-import kotlinx.coroutines.runBlocking
 import java.io.File
 import kotlin.system.exitProcess
 
-fun main() = runBlocking {
+fun main() {
    if (System.getenv("TOKEN") == null) {
       ConsoleLogger.logWarning("Could not find Environmental Variable TOKEN.")
       exitProcess(1)

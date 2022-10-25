@@ -8,19 +8,18 @@ import com.github.twitch4j.helix.domain.User
 import de.jakkoble.modules.data.channels
 import de.jakkoble.modules.events.ChannelMessageListener
 import de.jakkoble.utils.ConsoleLogger
-import kotlinx.coroutines.coroutineScope
 
 object TwitchBot {
    val twitchClient: TwitchClient = createClient()
-   suspend fun registerEvents() = coroutineScope {
+   fun registerEvents() {
       ConsoleLogger.logInfo("Start registering Events...")
       val eventHandler = twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java)
       ChannelMessageListener().register(eventHandler)
    }
-   suspend fun start() = coroutineScope {
+   fun start() {
       if (channels.isEmpty()) {
          ConsoleLogger.logWarning("No channel specified in channelData.json!")
-         return@coroutineScope
+         return
       }
       channels.forEach {
          ConsoleLogger.logInfo("Joined Channel ${it.userData.displayName}")
@@ -34,10 +33,15 @@ object TwitchBot {
          .withChatAccount(OAuth2Credential("twitch", System.getenv("TOKEN")))
          .withEnableChat(true)
          .withEnableHelix(true)
+         .withEnableTMI(true)
          .build()
       ConsoleLogger.logInfo("TwitchClient successfully created.")
       return client
    }
    fun getChannel(name: String): User? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.firstOrNull()
-   fun getMods(channelID: String): List<String?>? = twitchClient.helix.getModerators(System.getenv("TOKEN"), channelID, null, null, null).execute()?.moderators?.map { it.userId }
+   fun getMods(channelName: String): List<String?>? {
+      val mods = twitchClient.messagingInterface.getChatters(channelName).execute()?.moderators
+      mods?.forEach { println(it) }
+      return mods
+   }
 }

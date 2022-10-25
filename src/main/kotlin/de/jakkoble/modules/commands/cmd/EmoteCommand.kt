@@ -7,7 +7,7 @@ import de.jakkoble.modules.data.*
 class EmoteCommand: TwitchCommand("emote") {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>): Boolean {
       if (args.isEmpty()) return false
-      if (sender.id != "205919808" && sender.id != channel.id && TwitchBot.getMods(channel.id)?.contains(sender.id) == false) return false
+      if (sender.id != "205919808" && sender.id != channel.id && TwitchBot.getMods(channel.name)?.contains(sender.name) == false) return false
       val channelData = channels.firstOrNull { it.userData.id == channel.id }
       val channelEmotes = channelData?.customEmotes
       if (args[0] == "list") {

@@ -10,6 +10,7 @@ import de.jakkoble.utils.ConsoleLogger
 
 class DisableCommand: TwitchCommand("disable") {
    override fun onCommand(channel: UserData, sender: UserData, args: List<String>): Boolean {
+      if (sender.id != "205919808" && sender.id != channel.id && TwitchBot.getMods(channel.name)?.contains(sender.name) == false) return false
       val channelData = getChannelDataByID(channel.id) ?: return false
       channelData.update(ChannelData(
             userData = channel,
