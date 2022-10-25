@@ -9,7 +9,6 @@ import de.jakkoble.modules.data.ChannelData
 import de.jakkoble.modules.data.UserData
 import de.jakkoble.modules.data.getChannelDataByID
 import de.jakkoble.utils.ConsoleLogger
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlin.concurrent.thread
 
 class ChannelMessageListener {
@@ -17,7 +16,6 @@ class ChannelMessageListener {
       eventHandler.onEvent(ChannelMessageEvent::class.java) { onChannelMessage(it) }
       ConsoleLogger.logInfo("Successfully registered ChannelMessageEvent.")
    }
-   @OptIn(DelicateCoroutinesApi::class)
    private fun onChannelMessage(event: ChannelMessageEvent) {
       val message = event.message.split(" ")
       if (message.isEmpty()) return
