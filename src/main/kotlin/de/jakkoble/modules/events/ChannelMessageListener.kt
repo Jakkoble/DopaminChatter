@@ -35,6 +35,12 @@ class ChannelMessageListener {
 private fun handleEmote(channelData: ChannelData, message: List<String>) {
    if (!channelData.enabled) return
    val emoteList = channelData.customEmotes
+   if (message.all { emoteList.contains(it) && message.count{ msg -> msg == it } == 1}) {
+      val response = StringBuilder()
+      message.forEach { response.append(it).append(" ") }
+      TwitchBot.twitchClient.chat.sendMessage(channelData.userData.name, response.toString())
+      return
+   }
    message.forEach {
       if (emoteList.contains(it)) {
          if ((1..100).random() <= channelData.writingChance)
