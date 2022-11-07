@@ -39,9 +39,5 @@ object TwitchBot {
       return client
    }
    fun getChannel(name: String): User? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.firstOrNull()
-   fun getMods(channelName: String): List<String?>? {
-      val mods = twitchClient.messagingInterface.getChatters(channelName).execute()?.moderators
-      mods?.forEach { println(it) }
-      return mods
-   }
+   fun getMods(channelName: String): List<String?>? = twitchClient.messagingInterface.getChatters(channelName).execute()?.moderators
 }
