@@ -22,8 +22,10 @@ object TwitchBot {
          return
       }
       channels.forEach {
-         ConsoleLogger.logInfo("Joined Channel ${it.userData.displayName}")
-         twitchClient.chat.joinChannel(it.userData.name)
+         if (it.userData.name != "dopaminchatter") {
+            ConsoleLogger.logInfo("Joined Channel ${it.userData.displayName}")
+            twitchClient.chat.joinChannel(it.userData.name)
+         }
       }
       ConsoleLogger.logInfo("Successfully joined all Twitch Channels.")
    }
