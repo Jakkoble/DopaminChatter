@@ -8,7 +8,7 @@ If a User Message contains a specific Emote (specified by Channel Owner) there i
 </br>
 </br>
 ## Bot Setup
-To enable the Bot for your Channel, just go to **[my Twitch Chat](https://twitch.tv/jakkoble)** (a follow would not hurt 😉) and write `#register`. After registration, the Bot automatically joins your Channel. Now you are able to setup the Bot in your own Channel Chat with the **Commands**.
+To enable the Bot for your Channel, just go to **[my Twitch Chat](https://twitch.tv/dopaminchatter)** and write `#register`. After registration, the Bot automatically joins your Channel. Now you are able to setup the Bot in your own Channel Chat with the **Commands**.
 </br>
 </br>
 ### Commands
