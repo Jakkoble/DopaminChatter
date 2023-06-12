@@ -9,9 +9,12 @@ import de.jakkoble.utils.ConsoleLogger
 import java.io.File
 import kotlin.system.exitProcess
 import org.slf4j.LoggerFactory
-fun main() {
-   if (System.getenv("TOKEN") == null) {
-      ConsoleLogger.logWarning("Could not find Environmental Variable TOKEN.")
+
+var TOKEN = ""
+fun main(args: Array<String>) {
+   TOKEN = args[0]
+   if (TOKEN == "") {
+      ConsoleLogger.logWarning("No TOKEN specified in program args.")
       exitProcess(1)
    }
    (LoggerFactory.getILoggerFactory().getLogger("com.netflix.config") as Logger).level = Level.OFF

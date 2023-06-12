@@ -5,6 +5,7 @@ import com.github.philippheuer.events4j.simple.SimpleEventHandler
 import com.github.twitch4j.TwitchClient
 import com.github.twitch4j.TwitchClientBuilder
 import com.github.twitch4j.helix.domain.User
+import de.jakkoble.TOKEN
 import de.jakkoble.modules.data.channels
 import de.jakkoble.modules.events.ChannelMessageListener
 import de.jakkoble.utils.ConsoleLogger
@@ -32,7 +33,7 @@ object TwitchBot {
    private fun createClient(): TwitchClient {
       ConsoleLogger.logInfo("Start creating TwitchClient...")
       val client = TwitchClientBuilder.builder()
-         .withChatAccount(OAuth2Credential("twitch", System.getenv("TOKEN")))
+         .withChatAccount(OAuth2Credential("twitch", TOKEN))
          .withEnableChat(true)
          .withEnableHelix(true)
          .withEnableTMI(true)
@@ -40,6 +41,6 @@ object TwitchBot {
       ConsoleLogger.logInfo("TwitchClient successfully created.")
       return client
    }
-   fun getChannel(name: String): User? = twitchClient.helix.getUsers(System.getenv("TOKEN"), null, listOf(name)).execute().users.firstOrNull()
+   fun getChannel(name: String): User? = twitchClient.helix.getUsers(TOKEN, null, listOf(name)).execute().users.firstOrNull()
    fun getMods(channelName: String): List<String?>? = twitchClient.messagingInterface.getChatters(channelName).execute()?.moderators
 }
