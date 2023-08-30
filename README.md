@@ -19,7 +19,7 @@ To enable the Bot for your Channel, just go to **[my Twitch Chat](https://twitch
 `#disable` — Disable the Bot temporarily (no Data will be deleted) </br>
 `#enable` — Enable the Bot again </br>
 
-##### These Commands only work in [my Twitch Chat](https://twitch.tv/jakkoble)
+##### These Commands only work in [my Twitch Chat](https://twitch.tv/dopaminchatter)
 `#register` — Let the Bot join your Twitch Chat </br>
 `#unregister` — Remove the Bot from your Twitch Chat (Data will be deleted)</br>
 </br>
